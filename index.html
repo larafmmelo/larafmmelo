@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lara Melo — Portfólio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a12;
+    --bg-alt:#100f1a;
+    --pink:#ff6fbf;
+    --pink-soft:#ffb8e0;
+    --blue:#8ecbff;
+    --blue-soft:#c9e6ff;
+    --white:#f6f5fb;
+    --ink:#c7c4d9;
+    --ink-dim:#8f8ca6;
+    --line:rgba(246,245,251,0.08);
+    --grad: linear-gradient(135deg, var(--pink), var(--blue));
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Manrope', sans-serif;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* subtle HUD grid backdrop */
+  body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:64px 64px;
+    mask-image:radial-gradient(ellipse at 50% 0%, black 0%, transparent 70%);
+    pointer-events:none;
+    z-index:0;
+    opacity:0.5;
+  }
+
+  h1,h2,h3{
+    font-family:'Unbounded', sans-serif;
+    color:var(--white);
+    line-height:1.15;
+  }
+
+  a{color:inherit; text-decoration:none;}
+
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+    position:relative;
+    z-index:1;
+  }
+
+  /* NAV */
+  nav{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:50;
+    backdrop-filter:blur(14px);
+    background:rgba(10,10,18,0.55);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height:72px;
+  }
+  .logo{
+    font-family:'Unbounded', sans-serif;
+    font-weight:700;
+    font-size:1.05rem;
+    color:var(--white);
+    letter-spacing:0.01em;
+  }
+  .logo span{
+    background:var(--grad);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .nav-links{
+    display:flex;
+    gap:36px;
+    font-size:0.92rem;
+    font-weight:500;
+  }
+  .nav-links a{
+    color:var(--ink);
+    transition:color .25s ease;
+    position:relative;
+  }
+  .nav-links a:hover{color:var(--white);}
+
+  /* HERO */
+  .hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    position:relative;
+    padding-top:72px;
+  }
+  .hero .wrap{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    align-items:center;
+    gap:24px;
+  }
+  .hero-text h1{
+    font-size:clamp(2.6rem, 5vw, 4.4rem);
+    font-weight:800;
+    margin-bottom:18px;
+  }
+  .hero-text .role{
+    font-size:1.05rem;
+    color:var(--pink-soft);
+    font-weight:600;
+    margin-bottom:22px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .role::before{
+    content:'';
+    width:28px; height:2px;
+    background:var(--grad);
+    display:inline-block;
+  }
+  .hero-text p.lead{
+    font-size:1.08rem;
+    line-height:1.7;
+    color:var(--ink);
+    max-width:480px;
+    margin-bottom:36px;
+  }
+  .cta-row{display:flex; gap:16px; flex-wrap:wrap;}
+  .btn{
+    font-family:'Manrope', sans-serif;
+    font-weight:600;
+    font-size:0.95rem;
+    padding:14px 26px;
+    display:inline-block;
+    clip-path:polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .btn-primary{
+    background:var(--grad);
+    color:#140a12;
+  }
+  .btn-primary:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 30px -8px rgba(255,111,191,0.45);
+  }
+  .btn-ghost{
+    border:1px solid var(--line);
+    color:var(--white);
+    background:rgba(255,255,255,0.02);
+  }
+  .btn-ghost:hover{
+    border-color:var(--blue-soft);
+    transform:translateY(-2px);
+  }
+
+  .hero-canvas-wrap{
+    position:relative;
+    height:520px;
+  }
+  #hero-canvas{
+    width:100%;
+    height:100%;
+    display:block;
+  }
+
+  /* SECTIONS */
+  section{
+    padding:110px 0;
+    position:relative;
+  }
+  .section-head{margin-bottom:48px;}
+  .section-head h2{
+    font-size:clamp(1.8rem, 3vw, 2.4rem);
+    font-weight:700;
+  }
+  .section-head .kicker{
+    color:var(--blue-soft);
+    font-weight:600;
+    font-size:0.9rem;
+    margin-bottom:10px;
+    display:block;
+  }
+
+  /* ABOUT */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:64px;
+    align-items:start;
+  }
+  .about-grid p{
+    font-size:1.02rem;
+    line-height:1.85;
+    color:var(--ink);
+    margin-bottom:18px;
+  }
+  .skills-panel{
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    clip-path:polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% 100%, 0 100%);
+    padding:32px;
+  }
+  .skills-panel h3{
+    font-size:1rem;
+    margin-bottom:20px;
+    color:var(--pink-soft);
+  }
+  .chip-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .chip{
+    font-size:0.85rem;
+    font-weight:500;
+    padding:8px 14px;
+    border:1px solid var(--line);
+    color:var(--ink);
+    background:rgba(255,255,255,0.02);
+    clip-path:polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
+  }
+
+  /* PROJECTS */
+  .projects-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:24px;
+  }
+  .project-card{
+    border:1px dashed var(--line);
+    background:linear-gradient(180deg, rgba(255,255,255,0.025), transparent);
+    padding:28px;
+    clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%);
+    transition:border-color .25s ease, transform .25s ease;
+  }
+  .project-card:hover{
+    border-color:var(--pink-soft);
+    transform:translateY(-4px);
+  }
+  .project-tag{
+    display:inline-block;
+    font-size:0.72rem;
+    font-weight:700;
+    color:var(--bg);
+    background:var(--grad);
+    padding:4px 10px;
+    margin-bottom:16px;
+    clip-path:polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%);
+  }
+  .project-card h3{
+    font-size:1.15rem;
+    margin-bottom:10px;
+  }
+  .project-card p{
+    font-size:0.92rem;
+    line-height:1.6;
+    color:var(--ink-dim);
+  }
+
+  /* CONTACT */
+  .contact-panel{
+    border:1px solid var(--line);
+    background:linear-gradient(135deg, rgba(255,111,191,0.06), rgba(142,203,255,0.06));
+    clip-path:polygon(0 0, calc(100% - 40px) 0, 100% 40px, 100% 100%, 0 100%);
+    padding:56px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:24px;
+  }
+  .contact-panel h2{font-size:2rem; max-width:420px;}
+  .contact-links{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .contact-links a{
+    font-weight:600;
+    color:var(--white);
+    border-bottom:1px solid var(--line);
+    padding-bottom:6px;
+    transition:color .2s ease, border-color .2s ease;
+  }
+  .contact-links a:hover{
+    color:var(--pink-soft);
+    border-color:var(--pink-soft);
+  }
+
+  footer{
+    text-align:center;
+    padding:36px 0;
+    color:var(--ink-dim);
+    font-size:0.85rem;
+    border-top:1px solid var(--line);
+  }
+
+  @media (max-width:860px){
+    .hero .wrap{grid-template-columns:1fr;}
+    .hero-canvas-wrap{height:340px; order:-1;}
+    .about-grid{grid-template-columns:1fr; gap:36px;}
+    .projects-grid{grid-template-columns:1fr;}
+    .nav-links{display:none;}
+    .contact-panel{padding:36px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo">lara<span>.</span>melo</div>
+    <div class="nav-links">
+      <a href="#sobre">Sobre</a>
+      <a href="#projetos">Projetos</a>
+      <a href="#contato">Contato</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-text">
+      <div class="role">Análise e Desenvolvimento de Sistemas</div>
+      <h1>Lara Melo</h1>
+      <p class="lead">Escrevo código com a mesma atenção que escolho uma paleta de cores. Estudante de ADS construindo interfaces onde estética e engenharia não competem — se completam.</p>
+      <div class="cta-row">
+        <a href="#projetos" class="btn btn-primary">Ver projetos</a>
+        <a href="#contato" class="btn btn-ghost">Falar comigo</a>
+      </div>
+    </div>
+    <div class="hero-canvas-wrap">
+      <canvas id="hero-canvas"></canvas>
+    </div>
+  </div>
+</section>
+
+<section id="sobre">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Sobre mim</span>
+      <h2>Da lógica à interface</h2>
+    </div>
+    <div class="about-grid">
+      <div>
+        <p>Estou no 4º período de Análise e Desenvolvimento de Sistemas na Una Aimorés, depois de ter passado por Ciência da Computação na PUC Lourdes. Gosto de entender tanto a estrutura por trás de um sistema quanto a experiência de quem vai usá-lo.</p>
+        <p>Já participei de eventos como o Techweek e o curso de férias Aceler.AI, além de cursos voltados a front-end, machine learning, bancos de dados e automações com IA. Inglês avançado, curiosidade constante e um olhar bem atento pra detalhes visuais fazem parte de como eu trabalho.</p>
+      </div>
+      <div class="skills-panel">
+        <h3>Tecnologias</h3>
+        <div class="chip-grid">
+          <span class="chip">JavaScript</span>
+          <span class="chip">TypeScript</span>
+          <span class="chip">React</span>
+          <span class="chip">React Native</span>
+          <span class="chip">Python</span>
+          <span class="chip">Java</span>
+          <span class="chip">C / C++</span>
+          <span class="chip">HTML &amp; CSS</span>
+          <span class="chip">MySQL</span>
+          <span class="chip">NoSQL</span>
+          <span class="chip">Machine Learning</span>
+          <span class="chip">Git &amp; GitHub</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projetos">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Projetos</span>
+      <h2>Em construção — como tudo que vale a pena</h2>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card">
+        <span class="project-tag">Em breve</span>
+        <h3>Bot de WhatsApp com IA</h3>
+        <p>Espaço reservado para o projeto construído a partir do curso de automação com Node.js e IA. Troque por descrição, tecnologias e link do repositório.</p>
+      </div>
+      <div class="project-card">
+        <span class="project-tag">Em breve</span>
+        <h3>Painel de dados</h3>
+        <p>Espaço reservado para um projeto de visualização de dados ou dashboard. Troque por descrição, tecnologias e link do repositório.</p>
+      </div>
+      <div class="project-card">
+        <span class="project-tag">Em breve</span>
+        <h3>Experiência interativa</h3>
+        <p>Espaço reservado para um projeto pessoal ou de faculdade em destaque. Troque por descrição, tecnologias e link do repositório.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contato">
+  <div class="wrap">
+    <div class="contact-panel">
+      <h2>Vamos conversar sobre a próxima oportunidade?</h2>
+      <div class="contact-links">
+        <a href="mailto:larafm.melo@gmail.com">larafm.melo@gmail.com</a>
+        <a href="https://github.com/larafmmelo" target="_blank" rel="noopener">github.com/larafmmelo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© 2026 Lara Melo</div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  const canvas = document.getElementById('hero-canvas');
+  const wrap = canvas.parentElement;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, wrap.clientWidth / wrap.clientHeight, 0.1, 100);
+  camera.position.z = 6;
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+
+  const group = new THREE.Group();
+  scene.add(group);
+
+  // outer wireframe icosahedron (pink)
+  const icoGeo = new THREE.IcosahedronGeometry(1.9, 1);
+  const icoMat = new THREE.MeshBasicMaterial({ color: 0xff6fbf, wireframe: true, transparent: true, opacity: 0.85 });
+  const ico = new THREE.Mesh(icoGeo, icoMat);
+  group.add(ico);
+
+  // inner soft sphere (baby blue, translucent)
+  const sphereGeo = new THREE.SphereGeometry(1.05, 32, 32);
+  const sphereMat = new THREE.MeshBasicMaterial({ color: 0x8ecbff, transparent: true, opacity: 0.18 });
+  const sphere = new THREE.Mesh(sphereGeo, sphereMat);
+  group.add(sphere);
+
+  // small inner wireframe (white, contrast)
+  const innerGeo = new THREE.OctahedronGeometry(0.65, 0);
+  const innerMat = new THREE.MeshBasicMaterial({ color: 0xf6f5fb, wireframe: true, transparent: true, opacity: 0.5 });
+  const inner = new THREE.Mesh(innerGeo, innerMat);
+  group.add(inner);
+
+  // orbiting particles, color-interpolated pink -> blue
+  const particleCount = 260;
+  const positions = new Float32Array(particleCount * 3);
+  const colors = new Float32Array(particleCount * 3);
+  const colorA = new THREE.Color(0xff6fbf);
+  const colorB = new THREE.Color(0x8ecbff);
+
+  for (let i = 0; i < particleCount; i++) {
+    const r = 2.6 + Math.random() * 1.4;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos((Math.random() * 2) - 1);
+    positions[i*3]     = r * Math.sin(phi) * Math.cos(theta);
+    positions[i*3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+    positions[i*3 + 2] = r * Math.cos(phi);
+
+    const c = colorA.clone().lerp(colorB, Math.random());
+    colors[i*3] = c.r; colors[i*3+1] = c.g; colors[i*3+2] = c.b;
+  }
+
+  const particleGeo = new THREE.BufferGeometry();
+  particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  particleGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  const particleMat = new THREE.PointsMaterial({ size: 0.045, vertexColors: true, transparent: true, opacity: 0.85 });
+  const particles = new THREE.Points(particleGeo, particleMat);
+  scene.add(particles);
+
+  // mouse parallax
+  let targetX = 0, targetY = 0;
+  let mouseActive = false;
+
+  function onPointerMove(clientX, clientY){
+    const rect = wrap.getBoundingClientRect();
+    const nx = ((clientX - rect.left) / rect.width) * 2 - 1;
+    const ny = ((clientY - rect.top) / rect.height) * 2 - 1;
+    targetX = nx * 0.5;
+    targetY = ny * 0.5;
+    mouseActive = true;
+  }
+
+  window.addEventListener('mousemove', (e) => onPointerMove(e.clientX, e.clientY));
+  window.addEventListener('touchmove', (e) => {
+    if (e.touches[0]) onPointerMove(e.touches[0].clientX, e.touches[0].clientY);
+  }, { passive: true });
+
+  const clock = new THREE.Clock();
+
+  function animate(){
+    requestAnimationFrame(animate);
+    const t = clock.getElapsedTime();
+
+    ico.rotation.x = t * 0.15;
+    ico.rotation.y = t * 0.22;
+    inner.rotation.x = -t * 0.3;
+    inner.rotation.y = t * 0.18;
+    particles.rotation.y = t * 0.04;
+
+    group.rotation.y += (targetX - group.rotation.y) * 0.04;
+    group.rotation.x += (-targetY - group.rotation.x) * 0.04;
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  function handleResize(){
+    const w = wrap.clientWidth, h = wrap.clientHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+  }
+  window.addEventListener('resize', handleResize);
+})();
+</script>
+
+</body>
+</html>
